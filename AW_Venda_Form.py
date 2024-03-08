@@ -89,18 +89,18 @@ def Sub_Executar():
                     st.write(f"**{'Este produto NÃO EXISTE'}**")
                 else:
                     # Monta Lista externa
-                    mdl.lst_Produtos.extend([(str_ProdID, val_Quant, val_Preco)])
+                    mdl.lst_Produtos.extend([(str_ProdID, val_Preco, val_Quant)])
 
                     # Monta Listas p/ DataFrame
                     lst_ID = []
                     for lst in mdl.lst_Produtos:
                         lst_ID.append(lst[0])
-                    lst_Qtd = []
-                    for lst in mdl.lst_Produtos:
-                        lst_Qtd.append(lst[1])
                     lst_Val = []
                     for lst in mdl.lst_Produtos:
-                        lst_Val.append(str(f"{lst[2]:_.2f}".replace(".", ",").replace("_", ".")))
+                        lst_Val.append(str(f"{lst[1]:_.2f}".replace(".", ",").replace("_", ".")))
+                    lst_Qtd = []
+                    for lst in mdl.lst_Produtos:
+                        lst_Qtd.append(lst[2])
 
                     # t ;;;;;;;;;;;;;;;;;;;;;;;;
                     # Show DataFrame
@@ -108,7 +108,7 @@ def Sub_Executar():
                     # st.table(df)
 
                     # p ;;;;;;;;;;;;;;;;;;;;;;;;;
-                    mdl.pdd_DataFrame = pd.DataFrame({"ID (código)": lst_ID, "Quantidade": lst_Qtd, "Valor": lst_Val})
+                    mdl.pdd_DataFrame = pd.DataFrame({"ID     ": lst_ID, "Valor(R$)": lst_Val, "QTD": lst_Qtd})
                     st.markdown(mdl.pdd_DataFrame.style.hide(axis="index").to_html(), unsafe_allow_html=True)
                     # ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
