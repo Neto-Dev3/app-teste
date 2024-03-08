@@ -65,35 +65,30 @@ def Sub_Executar():
             # str_ProdID = st.text_input(label="Código do Produto")
             # val_Quant = st.number_input(label="Quantidade do Produto", format="%d", step=1, value=1)
 
-            # col1, col2 = st.columns([1, 6])
-            # with col1:
-            #     str_ProdID = st.text_input(label="ID (código)")
-            # with col2:
-            #     val_Quant = st.number_input(label="Quantidade", format="%d", step=1, value=1)
-            # ....................................................................
-
-            # hidden    collapsed
-
-            col1, col2, col3, col4 = st.columns([1, 1, 1, 1])
+            col1, col2 = st.columns([1, 1])
             with col1:
                 str_ProdID = st.text_input(label="", placeholder="ID (código)", label_visibility="collapsed")
             with col2:
                 val_Quant = st.number_input(label="", placeholder="Quantidade", label_visibility="collapsed", format="%d", step=1, value=None)
-            with col3:
-                cmd_ProdIncluir = st.form_submit_button("INCLUIR")
-            with col4:
-                cmd_ProdExcluir = st.form_submit_button("EXCLUIR")
+            # ....................................................................
+
+            # col1, col2, col3, col4 = st.columns([1, 1, 1, 1])
+            # with col1:
+            #     str_ProdID = st.text_input(label="", placeholder="ID (código)", label_visibility="collapsed")
+            # with col2:
+            #     val_Quant = st.number_input(label="", placeholder="Quantidade", label_visibility="collapsed", format="%d", step=1, value=None)
+            # with col3:
+            #     cmd_ProdIncluir = st.form_submit_button("INCLUIR")
+            # with col4:
+            #     cmd_ProdExcluir = st.form_submit_button("EXCLUIR")
 
             # ....................................................................
 
-            # Opção Deletar item
-            # mdl.lst_Produtos.remove("H01VCJ230901")
-
-            # col1, col2 = st.columns([1, 6])
-            # with col1:
-            #     cmd_ProdIncluir = st.form_submit_button("INCLUIR")
-            # with col2:
-            #     cmd_ProdExcluir = st.form_submit_button("EXCLUIR")
+            col1, col2 = st.columns([1, 1])
+            with col1:
+                cmd_ProdIncluir = st.form_submit_button("INCLUIR")
+            with col2:
+                cmd_ProdExcluir = st.form_submit_button("EXCLUIR")
 
             # cmd_ProdIncluir = st.form_submit_button("INCLUIR")
             # ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
