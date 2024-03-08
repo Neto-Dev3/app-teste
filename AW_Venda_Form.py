@@ -35,6 +35,8 @@ def Sub_Open():
 
     if bln_DB_Conectado is False:
         mdl.Lst_Montar()
+        # p
+        mdl.Pdd_Montar()
         if db.mdl_bln_db_Conectar(True) is False:
             exit(0)
 
@@ -61,37 +63,22 @@ def Sub_Executar():
         with st.container():
             st.markdown("<h5 style='text-align: center; color: grey;'>PRODUTOS </h5>", unsafe_allow_html=True)
 
-            # p ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-            # str_ProdID = st.text_input(label="Código do Produto")
-            # val_Quant = st.number_input(label="Quantidade do Produto", format="%d", step=1, value=1)
-
+            # Campos
             col1, col2 = st.columns([1, 1])
             with col1:
                 str_ProdID = st.text_input(label="", placeholder="ID (código)", label_visibility="collapsed")
             with col2:
                 val_Quant = st.number_input(label="", placeholder="Quantidade", label_visibility="collapsed", format="%d", step=1, value=None)
-            # ....................................................................
 
-            # col1, col2, col3, col4 = st.columns([1, 1, 1, 1])
-            # with col1:
-            #     str_ProdID = st.text_input(label="", placeholder="ID (código)", label_visibility="collapsed")
-            # with col2:
-            #     val_Quant = st.number_input(label="", placeholder="Quantidade", label_visibility="collapsed", format="%d", step=1, value=None)
-            # with col3:
-            #     cmd_ProdIncluir = st.form_submit_button("INCLUIR")
-            # with col4:
-            #     cmd_ProdExcluir = st.form_submit_button("EXCLUIR")
-
-            # ....................................................................
-
+            # Botões
             col1, col2 = st.columns([1, 6])
             with col1:
                 cmd_ProdIncluir = st.form_submit_button("INCLUIR")
             with col2:
                 cmd_ProdExcluir = st.form_submit_button("EXCLUIR")
 
-            # cmd_ProdIncluir = st.form_submit_button("INCLUIR")
-            # ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+            # p
+            global df
 
             # Incluir Prooduto
             if cmd_ProdIncluir:
@@ -115,19 +102,24 @@ def Sub_Executar():
                     for lst in mdl.lst_Produtos:
                         lst_Val.append(str(f"{lst[2]:_.2f}".replace(".", ",").replace("_", ".")))
 
-                    # p ;;;;;;;;;;;;;;;;;;;;;;;;
+                    # t ;;;;;;;;;;;;;;;;;;;;;;;;
                     # Show DataFrame
-                    df = pd.DataFrame({"Código": lst_ID, "Quantidade": lst_Qtd, "Valor": lst_Val})
+                    # df = pd.DataFrame({"ID (código)": lst_ID, "Quantidade": lst_Qtd, "Valor": lst_Val})
                     # st.table(df)
+
+                    # p ;;;;;;;;;;;;;;;;;;;;;;;;;
+                    mdl.pdd_DataFrame = pd.DataFrame({"ID (código)": lst_ID, "Quantidade": lst_Qtd, "Valor": lst_Val})
+                    st.markdown(mdl.pdd_DataFrame.style.hide(axis="index").to_html(), unsafe_allow_html=True)
+                    # ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
                     # Remove index
                     # st.dataframe(df, hide_index=True)
                     # st.table(df.assign(hack='').set_index('hack'))
 
-                    st.markdown(df.style.hide(axis="index").to_html(), unsafe_allow_html=True)
+                    # st.markdown(df.style.hide(axis="index").to_html(), unsafe_allow_html=True)
                     # ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-            # p ;;;;;;;;;;;;;;;;;;;;;;;;
+            # v ;;;;;;;;;;;;;;;;;;;;;;;;
             # Opção Deletar item
 
             # Excluir Prooduto
@@ -142,8 +134,8 @@ def Sub_Executar():
             st.markdown("<h5 style='text-align: center; color: grey;'>RECEBIMENTO </h5>", unsafe_allow_html=True)
             cbx_FormaPag = st.selectbox("Forma de Pagamento", ["Cartão", "PIX", "TC"])
             cbx_Parcelas = st.selectbox("Quantidade de Parcelas", ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"])
-            val_Desconto = st.number_input(label="Valor do Desconto (R$)", step=0.5, format="%f")
-            val_Frete = st.number_input(label="Valor do Frete (R$)", step=0.5, format="%f")
+            val_Desconto = st.number_input(label="Desconto (R$)", step=0.5, format="%f")
+            val_Frete = st.number_input(label="Frete / Taxas (R$)", step=0.5, format="%f")
 
             st.write("---")
 
@@ -168,7 +160,7 @@ def Sub_Executar():
         val_TotNFe = val_TotProd - val_Desconto + val_Frete
 
         # Formatar Saída
-        str_Form = "============ Dados do Cliente ============"
+        str_Form = "====== Dados do Cliente ======"
         str_Form = str_Form + "\n" + "Nome: " + str_Nome
         str_Form = str_Form + "\n" + "CPF: " + str_CPF
         str_Form = str_Form + "\n" + "Endereço: " + str_Endereco
@@ -178,24 +170,32 @@ def Sub_Executar():
         str_Form = str_Form + "\n" + "UF: " + str_UF
         str_Form = str_Form + "\n" + "e-Mail: " + str_eMail
 
-        str_Form = str_Form + "\n" + "\n" + "============ Lista de Produtos ============"
-        str_ID = "Código: "
-        str_Qtd = "Quantidade: "
-        str_Val = "Preço: "
-        for lst in mdl.lst_Produtos:
-            str_Produto = (
-                str_ID + lst[0] + " | " + str_Qtd + str(lst[1]) + " | " + str_Val + str(f"{lst[2]:_.2f}".replace(".", ",").replace("_", "."))
-            )
-            str_Form = str_Form + "\n" + str_Produto
+        str_Form = str_Form + "\n" + "\n" + "====== Lista de Produtos ======"
+        # p ;;;;;;;;;;;;;;;;;;;;;;;;
+        # str_ID = "ID (código): "
+        # str_Qtd = "Quantidade: "
+        # str_Val = "Preço (R$): "
+        # for lst in mdl.lst_Produtos:
+        #     str_Produto = (
+        #         str_ID + lst[0] + " | " + str_Qtd + str(lst[1]) + " | " + str_Val + str(f"{lst[2]:_.2f}".replace(".", ",").replace("_", "."))
+        #     )
+        #     str_Form = str_Form + "\n" + str_Produto
+        # .........................................................
 
-        str_Form = str_Form + "\n" + "\n" + "============ Recebimento ============"
+        # Print the DataFrame without index
+        # print(df.to_string(index=False))
+
+        str_Form = str_Form + "\n" + (mdl.pdd_DataFrame.to_string(index=False))
+
+        # .........................................................
+        str_Form = str_Form + "\n" + "\n" + "Total dos Produtos (R$): " + str(f"{val_TotProd:_.2f}".replace(".", ",").replace("_", "."))
+        # ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+        str_Form = str_Form + "\n" + "\n" + "====== Recebimento ======"
         str_Form = str_Form + "\n" + "Forma de Recebimento: " + cbx_FormaPag
         str_Form = str_Form + "\n" + "Parcelas: " + str(cbx_Parcelas)
         str_Form = str_Form + "\n" + "Desconto (R$): " + str(f"{val_Desconto:_.2f}".replace(".", ",").replace("_", "."))
-        str_Form = str_Form + "\n" + "Frete / Despesas Acessórias (R$): " + str(f"{val_Frete:_.2f}".replace(".", ",").replace("_", "."))
-
-        str_Form = str_Form + "\n" + "\n" + "============ Fechamento ============"
-        str_Form = str_Form + "\n" + "\n" + "Total dos Produtos (R$): " + str(f"{val_TotProd:_.2f}".replace(".", ",").replace("_", "."))
+        str_Form = str_Form + "\n" + "Frete / Taxas (R$): " + str(f"{val_Frete:_.2f}".replace(".", ",").replace("_", "."))
         str_Form = str_Form + "\n" + "Total da NFe (R$): " + str(f"{val_TotNFe:_.2f}".replace(".", ",").replace("_", "."))
 
         # Show

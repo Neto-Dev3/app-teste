@@ -2,6 +2,11 @@
 
 
 def Lst_Montar():
-    # Montar Listas Externas
+    # Listas Externas
     global lst_Produtos
     lst_Produtos = []
+
+
+def Pdd_Montar():
+    # Pandas Data Frame
+    global pdd_DataFrame
