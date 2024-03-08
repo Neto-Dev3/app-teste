@@ -84,7 +84,7 @@ def Sub_Executar():
 
             # ....................................................................
 
-            col1, col2 = st.columns([1, 1])
+            col1, col2 = st.columns([1, 6])
             with col1:
                 cmd_ProdIncluir = st.form_submit_button("INCLUIR")
             with col2:
